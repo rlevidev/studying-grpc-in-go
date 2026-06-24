@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package task;
+
+option go_package = "studying-grpc-in-go/pb";
+
+// Requisição para criar a task
+message CreateTaskRequest {
+  string title = 1;
+  string description = 2;
+}
+
+// Resposta após criar a task
+message CreateTaskResponse {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+// Requisição para listar as tasks; Vázia, pois queremos todos
+message ListTasksRequest {}
+
+// Uma única task
+message Task {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+// A definição de serviço
+service TaskManager {
+  // Unary: cria uma única task
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
+
+  // Streaming do servidor: listar todas as tarefas como um fluxo
+  rpc ListTasks(ListTasksRequest) returns (stream Task);
+}
